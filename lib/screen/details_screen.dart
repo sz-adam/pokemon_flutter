@@ -57,7 +57,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           children: [
                             Text(
                               pokemonDetail.name,
-                              style: const TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Theme.of(context).colorScheme.onPrimary,),
                             ),
                             const SizedBox(height: 20),
                             Type(pokemonDetail: pokemonDetail)
