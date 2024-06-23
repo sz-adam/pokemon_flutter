@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon/constans/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
 
 class PokemonCard extends StatefulWidget {
@@ -14,19 +15,24 @@ class _PokemonCardState extends State<PokemonCard> {
   bool isStarred = false;
 
   void _handleCardTap() {
-    // Ide írd meg, mit szeretnél csinálni, amikor a kártyára kattintanak
+    // navigáció a details page-re
     print('Card tapped! Pokemon: ${widget.pokemon.name}');
   }
 
   @override
   Widget build(BuildContext context) {
+
+    String firstType1 = widget.pokemon.types[0].toLowerCase();
+    Color backgroundColor = PokeColors[firstType1] ?? Colors.grey;
+
     return GestureDetector(
-      onTap: _handleCardTap, // A kártya kattintásának kezelése
+      onTap: _handleCardTap, 
       child: Card(
         margin: const EdgeInsets.all(6),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
+        color: backgroundColor,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -47,7 +53,7 @@ class _PokemonCardState extends State<PokemonCard> {
                       onTap: () {
                         setState(() {
                           isStarred =
-                              !isStarred; // Állapot váltása kattintáskor
+                              !isStarred; 
                         });
                       },
                       child: Icon(
