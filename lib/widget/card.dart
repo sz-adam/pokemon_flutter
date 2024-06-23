@@ -15,23 +15,22 @@ class PokemonCard extends StatefulWidget {
 class _PokemonCardState extends State<PokemonCard> {
   bool isStarred = false;
 
-  void _handleCardTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => DetailsScreen(
-          pokemonId: widget.pokemon.id,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     String firstType1 = widget.pokemon.types[0].toLowerCase();
     Color backgroundColor = PokeColors[firstType1] ?? Colors.grey;
 
     return GestureDetector(
-      onTap: _handleCardTap,
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(
+              pokemonId: widget.pokemon.id,
+              backgroundColor: backgroundColor,
+            ),
+          ),
+        );
+      },
       child: Card(
         margin: const EdgeInsets.all(6),
         shape: RoundedRectangleBorder(

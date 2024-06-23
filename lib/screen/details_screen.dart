@@ -4,10 +4,11 @@ import 'package:flutter_pokemon/constans/services/poke_service.dart';
 import 'package:flutter_pokemon/widget/type.dart';
 
 class DetailsScreen extends StatefulWidget {
+  const DetailsScreen(
+      {Key? key, required this.pokemonId, required this.backgroundColor})
+      : super(key: key);
   final int pokemonId;
-
-  const DetailsScreen({Key? key, required this.pokemonId}) : super(key: key);
-
+  final Color backgroundColor;
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
@@ -39,6 +40,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Expanded(
                     flex: 1,
                     child: Container(
+                      width: double.infinity,
+                      color:widget.backgroundColor,
                       child: Hero(
                           tag: pokemonDetail.id,
                           child: Image.network(pokemonDetail.imageUrl)),
@@ -56,7 +59,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               style: const TextStyle(fontSize: 20),
                             ),
                             const SizedBox(height: 20),
-                           Type(pokemonDetail: pokemonDetail)
+                            Type(pokemonDetail: pokemonDetail)
                           ],
                         ),
                       ),
