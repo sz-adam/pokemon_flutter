@@ -24,7 +24,7 @@ class PokemonDetails {
 factory PokemonDetails.fromJson(Map<String, dynamic> json) {
   List<dynamic> typesList = json['types'];
   List<String> types =
-      typesList.map((type) => type['type']['name'] as String).toList();
+      typesList.map((type) => _capitalize(type['type']['name'] as String)).toList();
 
   List<dynamic> abilitiesList = json['abilities'];
   List<Map<String, dynamic>> abilities = abilitiesList
