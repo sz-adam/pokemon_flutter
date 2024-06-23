@@ -26,6 +26,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       appBar: AppBar(
         title: Text('Pokemon Details'),
       ),
