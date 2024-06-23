@@ -16,7 +16,6 @@ class Type extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
           decoration: BoxDecoration(
             color: backgroundColor,
-            border: Border.all(width: 1, color: Colors.black),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
