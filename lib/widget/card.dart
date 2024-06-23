@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
+import 'package:flutter_pokemon/screen/details_screen.dart';
 
 class PokemonCard extends StatefulWidget {
   const PokemonCard({Key? key, required this.pokemon}) : super(key: key);
@@ -15,18 +16,22 @@ class _PokemonCardState extends State<PokemonCard> {
   bool isStarred = false;
 
   void _handleCardTap() {
-    // navigáció a details page-re
-    print('Card tapped! Pokemon: ${widget.pokemon.name}');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => DetailsScreen(
+          pokemonId: widget.pokemon.id,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     String firstType1 = widget.pokemon.types[0].toLowerCase();
     Color backgroundColor = PokeColors[firstType1] ?? Colors.grey;
 
     return GestureDetector(
-      onTap: _handleCardTap, 
+      onTap: _handleCardTap,
       child: Card(
         margin: const EdgeInsets.all(6),
         shape: RoundedRectangleBorder(
@@ -52,8 +57,7 @@ class _PokemonCardState extends State<PokemonCard> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          isStarred =
-                              !isStarred; 
+                          isStarred = !isStarred;
                         });
                       },
                       child: Icon(
