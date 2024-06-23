@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
 import 'package:flutter_pokemon/constans/services/poke_service.dart';
+import 'package:flutter_pokemon/widget/card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -79,25 +80,28 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _pokemons.isEmpty && _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
+          ? const Center(child: CircularProgressIndicator())
+          : GridView.builder(
               controller: _scrollController,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Két kártya egymás mellé
+                crossAxisSpacing: 8, // Vízszintes térköz a kártyák között
+                mainAxisSpacing: 8, // Függőleges térköz a kártyák között
+                childAspectRatio: 1, // Kártyák méretaránya (négyzet alakú)
+              ),
               itemCount: _pokemons.length +
                   (_isLoading
                       ? 1
                       : 0), // Hozzáad egy betöltési indikátort, ha éppen töltés történik
               itemBuilder: (context, index) {
                 if (index == _pokemons.length) {
-                  return Center(
-                      child:
-                          CircularProgressIndicator()); // Betöltési indikátor a lista végén
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  ); // Betöltési indikátor a lista végén
                 }
                 final pokemon = _pokemons[index];
-                return ListTile(
-                  leading: Image.network(pokemon.imageUrl),
-                  title: Text(pokemon.name),
-                  subtitle: Text('ID: ${pokemon.id}'),
-                );
+                return PokemonCard(
+                    pokemon: pokemon); // Pokemon kártya megjelenítése
               },
             ),
     );
