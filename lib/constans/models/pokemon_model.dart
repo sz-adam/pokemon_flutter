@@ -12,17 +12,18 @@ class Pokemon {
   });
 
   factory Pokemon.fromJson(Map<String, dynamic> json) {
-   // A 'types' listából dinamikus objektumok listáját olvassuk be
-  List<dynamic> typesList = json['types'];
-  
-  // A 'typesList' elemeit átalakítjuk String típusú listává, ahol minden elemet
-  // kinyerünk a 'type' kulcsból a 'name' alapján. Az 'as String' biztosítja, hogy 
-  // minden elem String típusú legyen, amit a 'toList()' metódussal konvertálunk.
-  List<String> types = typesList.map((type) => type['type']['name'] as String).toList();
+    // A 'types' listából dinamikus objektumok listáját olvassuk be
+    List<dynamic> typesList = json['types'];
+
+    // A 'typesList' elemeit átalakítjuk String típusú listává, ahol minden elemet
+    // kinyerünk a 'type' kulcsból a 'name' alapján. Az 'as String' biztosítja, hogy
+    // minden elem String típusú legyen, amit a 'toList()' metódussal konvertálunk.
+    List<String> types =
+        typesList.map((type) => type['type']['name'] as String).toList();
 
     return Pokemon(
       name: _capitalize(json['name']),
-      imageUrl: json['sprites']['front_default'],
+      imageUrl: json['sprites']['other']['home']['front_default'],
       id: json['id'],
       types: types,
     );
