@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_details_model.dart';
 import 'package:flutter_pokemon/constans/services/poke_service.dart';
+import 'package:flutter_pokemon/widget/stat.dart';
 import 'package:flutter_pokemon/widget/type.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -88,7 +89,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
+                            const SizedBox(height: 20),
+                            Stat(pokemonDetail: pokemonDetail),
+                           
                           ],
                         ),
                       ),
