@@ -92,7 +92,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             ),
                             const SizedBox(height: 20),
                             Stat(pokemonDetail: pokemonDetail),
-                           
                           ],
                         ),
                       ),

@@ -68,10 +68,13 @@ class _PokemonCardState extends State<PokemonCard> {
                 ),
               ),
               Expanded(
-                child: Image.network(
-                  widget.pokemon.imageUrl,
-                  width: double.infinity,
-                  height: double.infinity,
+                child: Hero(
+                  tag: widget.pokemon.id,
+                  child: Image.network(
+                    widget.pokemon.imageUrl,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
                 ),
               ),
               Padding(
