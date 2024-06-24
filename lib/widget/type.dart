@@ -12,6 +12,8 @@ class Type extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: pokemonDetail.types.map((type) {
         Color backgroundColor = PokeColors[type.toLowerCase()] ?? Colors.grey;
+        Color textColor =
+            type.toLowerCase() == 'electric' ? Colors.black87 : Colors.white;
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
           decoration: BoxDecoration(
@@ -20,8 +22,8 @@ class Type extends StatelessWidget {
           ),
           child: Text(
             type,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w600, fontSize: 15),
+            style: TextStyle(
+                color: textColor, fontWeight: FontWeight.w600, fontSize: 15),
           ),
         );
       }).toList(),
