@@ -42,7 +42,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     flex: 1,
                     child: Container(
                       width: double.infinity,
-                      color:widget.backgroundColor,
+                      color: widget.backgroundColor,
                       child: Hero(
                           tag: pokemonDetail.id,
                           child: Image.network(pokemonDetail.imageUrl)),
@@ -57,10 +57,38 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           children: [
                             Text(
                               pokemonDetail.name,
-                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Theme.of(context).colorScheme.onPrimary,),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                             ),
                             const SizedBox(height: 20),
-                            Type(pokemonDetail: pokemonDetail)
+                            Type(pokemonDetail: pokemonDetail),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text(
+                                  'Height: ${(pokemonDetail.height / 10).toStringAsFixed(1)} m',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
+                                Text(
+                                  'Weight :${(pokemonDetail.weight / 10).toStringAsFixed(1)} kg',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -70,11 +98,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Failed to load Pokemon details'),
             );
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },
