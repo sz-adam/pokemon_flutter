@@ -22,11 +22,17 @@ class Stat extends StatelessWidget {
                 style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(height: 4),
-              LinearProgressIndicator(
-                value: (stat['base_stat'] as int) / 100.0, // Statisztikák vizuális megjelenítése
-                minHeight: 10,
-                backgroundColor: Colors.grey[300],
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: (stat['base_stat'] as int) / 100.0),
+                duration: const Duration(seconds: 1),
+                builder: (context, value, child) {
+                  return LinearProgressIndicator(
+                    value: value, // Statisztikák vizuális megjelenítése
+                    minHeight: 10,
+                    backgroundColor: Colors.grey[300],
+                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  );
+                },
               ),
             ],
           ),
@@ -34,7 +40,7 @@ class Stat extends StatelessWidget {
       );
     }
 
-    return Column(    
+    return Column(
       children: statWidgets,
     );
   }
