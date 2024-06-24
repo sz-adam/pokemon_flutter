@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon/constans/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_details_model.dart';
 
 class Stat extends StatelessWidget {
@@ -10,6 +11,12 @@ class Stat extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> statWidgets = [];
 
+//ha a types nem üres akkor a 0 indexet használja ha üres akkor a 'normal
+    final String statColor = pokemonDetail.types.isNotEmpty
+        ? pokemonDetail.types[0].toLowerCase()
+        : 'normal';
+    final Color typeColor = PokeColors[statColor] ?? Colors.grey;
+
     for (final stat in pokemonDetail.stats) {
       statWidgets.add(
         Padding(
@@ -19,18 +26,22 @@ class Stat extends StatelessWidget {
             children: [
               Text(
                 '${stat['name']}', // Pokémon statisztikái
-                style: const TextStyle(fontSize: 18),
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
               const SizedBox(height: 4),
               TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: (stat['base_stat'] as int) / 100.0),
+                tween: Tween<double>(
+                    begin: 0, end: (stat['base_stat'] as int) / 100.0),
                 duration: const Duration(seconds: 1),
                 builder: (context, value, child) {
                   return LinearProgressIndicator(
                     value: value, // Statisztikák vizuális megjelenítése
                     minHeight: 10,
                     backgroundColor: Colors.grey[300],
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+                    valueColor: AlwaysStoppedAnimation<Color>(typeColor),
                   );
                 },
               ),
