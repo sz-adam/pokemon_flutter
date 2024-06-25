@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
 import 'package:flutter_pokemon/screen/details_screen.dart';
+import 'package:flutter_pokemon/widget/favorite_button.dart';
 
 class PokemonCard extends StatefulWidget {
   const PokemonCard({Key? key, required this.pokemon}) : super(key: key);
@@ -13,7 +14,7 @@ class PokemonCard extends StatefulWidget {
 }
 
 class _PokemonCardState extends State<PokemonCard> {
-  bool isStarred = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +54,7 @@ class _PokemonCardState extends State<PokemonCard> {
                       '${widget.pokemon.id}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isStarred = !isStarred;
-                        });
-                      },
-                      child: Icon(
-                        isStarred ? Icons.star : Icons.star_border,
-                        color: Colors.amber[700],
-                      ),
-                    ),
+                  const  FavoriteButton(top: 30, right: 10, size: 25)
                   ],
                 ),
               ),
