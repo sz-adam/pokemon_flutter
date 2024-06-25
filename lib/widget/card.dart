@@ -4,21 +4,14 @@ import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
 import 'package:flutter_pokemon/screen/details_screen.dart';
 import 'package:flutter_pokemon/widget/favorite_button.dart';
 
-class PokemonCard extends StatefulWidget {
+class PokemonCard extends StatelessWidget {
   const PokemonCard({Key? key, required this.pokemon}) : super(key: key);
 
   final Pokemon pokemon;
 
   @override
-  State<PokemonCard> createState() => _PokemonCardState();
-}
-
-class _PokemonCardState extends State<PokemonCard> {
-
-
-  @override
   Widget build(BuildContext context) {
-    String firstType1 = widget.pokemon.types[0].toLowerCase();
+    String firstType1 = pokemon.types[0].toLowerCase();
     Color backgroundColor = PokeColors[firstType1] ?? Colors.grey;
 
     return GestureDetector(
@@ -26,7 +19,7 @@ class _PokemonCardState extends State<PokemonCard> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => DetailsScreen(
-              pokemonId: widget.pokemon.id,
+              pokemonId: pokemon.id,
               backgroundColor: backgroundColor,
             ),
           ),
@@ -51,7 +44,7 @@ class _PokemonCardState extends State<PokemonCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${widget.pokemon.id}',
+                      '${pokemon.id}',
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   const  FavoriteButton(top: 30, right: 10, size: 25)
@@ -60,9 +53,9 @@ class _PokemonCardState extends State<PokemonCard> {
               ),
               Expanded(
                 child: Hero(
-                  tag: widget.pokemon.id,
+                  tag: pokemon.id,
                   child: Image.network(
-                    widget.pokemon.imageUrl,
+                    pokemon.imageUrl,
                     width: double.infinity,
                     height: double.infinity,
                   ),
@@ -71,7 +64,7 @@ class _PokemonCardState extends State<PokemonCard> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Text(
-                  widget.pokemon.name,
+                  pokemon.name,
                   style: TextStyle(
                     fontWeight: FontWeight.w900,
                     color: Colors.orange[700],
