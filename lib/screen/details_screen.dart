@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constans/models/pokemon_details_model.dart';
 import 'package:flutter_pokemon/constans/services/poke_service.dart';
+import 'package:flutter_pokemon/widget/custom_back_button.dart';
 import 'package:flutter_pokemon/widget/favorite_button.dart';
 import 'package:flutter_pokemon/widget/stat.dart';
 import 'package:flutter_pokemon/widget/type.dart';
@@ -102,7 +103,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
                   ],
                 ),
-               const FavoriteButton(top: 30, right: 10, size: 30)
+                const FavoriteButton(top: 30, right: 10, size: 30),
+               const  CustomBackButton(top: 30, left:10)
               ],
             );
           } else if (snapshot.hasError) {
