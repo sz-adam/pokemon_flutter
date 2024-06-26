@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisCount: 2, // Két kártya egymás mellé
                 crossAxisSpacing: 8, // Vízszintes térköz a kártyák között
                 mainAxisSpacing: 8, // Függőleges térköz a kártyák között
-                childAspectRatio: 1, // Kártyák méretaránya (négyzet alakú)
+                childAspectRatio: 0.7, // Kártyák méretaránya (négyzet alakú)
               ),
               itemCount: _pokemons.length +
                   (_isLoading
