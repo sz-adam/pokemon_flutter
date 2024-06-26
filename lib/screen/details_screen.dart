@@ -95,6 +95,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 ],
                               ),
                               const SizedBox(height: 20),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: widget.backgroundColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Text(
+                                  pokemonDetail.description,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
                               Stat(pokemonDetail: pokemonDetail),
                             ],
                           ),
@@ -104,7 +120,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   ],
                 ),
                 const FavoriteButton(top: 30, right: 10, size: 30),
-               const  CustomBackButton(top: 30, left:10)
+                const CustomBackButton(top: 30, left: 10)
               ],
             );
           } else if (snapshot.hasError) {
