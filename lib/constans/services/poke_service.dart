@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 
 class PokeApiService {
   final String baseUrl = 'https://pokeapi.co/api/v2/pokemon';
+    final String speciesUrl = 'https://pokeapi.co/api/v2/pokemon-species';
+
 
   // pokemonok lekérése
   Future<List<Pokemon>> fetchPokemons({int limit = 20, int offset = 0}) async {
@@ -41,11 +43,15 @@ class PokeApiService {
     }
   }
 
+
   Future<PokemonDetails> fetchPokemonById(int id) async {
-    final response = await http.get(Uri.parse('$baseUrl/$id'));
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      return PokemonDetails.fromJson(data);
+    final pokemonResponse = await http.get(Uri.parse('$baseUrl/$id'));
+    final speciesResponse = await http.get(Uri.parse('$speciesUrl/$id'));
+
+    if (pokemonResponse.statusCode == 200 && speciesResponse.statusCode == 200) {
+      final pokemonData = jsonDecode(pokemonResponse.body);
+      final speciesData = jsonDecode(speciesResponse.body);
+      return PokemonDetails.fromJson(pokemonData, speciesData);
     } else {
       throw Exception('Failed to load Pokémon by ID');
     }

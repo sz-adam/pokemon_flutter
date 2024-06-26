@@ -8,6 +8,7 @@ class PokemonDetails {
   final int baseExperience;
   final List<Map<String, dynamic>> abilities;
   final List<Map<String, dynamic>> stats;
+  final String description;
 
   PokemonDetails({
     required this.name,
@@ -19,21 +20,26 @@ class PokemonDetails {
     required this.baseExperience,
     required this.abilities,
     required this.stats,
+    required this.description,
   });
 
-  factory PokemonDetails.fromJson(Map<String, dynamic> json) {
-    List<dynamic> typesList = json['types'];
+  factory PokemonDetails.fromJson(
+      Map<String, dynamic> pokemonJson, Map<String, dynamic> speciesJson) {
+        //type 
+    List<dynamic> typesList = pokemonJson['types'];
     List<String> types = typesList
         .map((type) => _capitalize(type['type']['name'] as String))
         .toList();
 
-    List<dynamic> abilitiesList = json['abilities'];
+        //ability
+    List<dynamic> abilitiesList = pokemonJson['abilities'];
     List<Map<String, dynamic>> abilities = abilitiesList
         .map((ability) => ability['ability'])
         .toList()
         .cast<Map<String, dynamic>>();
 
-    List<dynamic> statsList = json['stats'];
+        //stat
+    List<dynamic> statsList = pokemonJson['stats'];
     List<Map<String, dynamic>> stats = statsList
         .map((stat) => {
               'name': _capitalize(stat['stat']['name']),
@@ -42,19 +48,24 @@ class PokemonDetails {
         .toList()
         .cast<Map<String, dynamic>>();
 
+        //description
+    String description = speciesJson['flavor_text_entries'].firstWhere(
+        (entry) => entry['language']['name'] == 'en')['flavor_text'];
+
     return PokemonDetails(
-      name: _capitalize(json['name']),
-      imageUrl: json['sprites']['other']['home']['front_default'],
-      id: json['id'],
+      name: _capitalize(pokemonJson['name']),
+      imageUrl: pokemonJson['sprites']['other']['home']['front_default'],
+      id: pokemonJson['id'],
       types: types,
-      weight: json['weight'],
-      height: json['height'],
-      baseExperience: json['base_experience'],
+      weight: pokemonJson['weight'],
+      height: pokemonJson['height'],
+      baseExperience: pokemonJson['base_experience'],
       abilities: abilities,
       stats: stats,
+      description: description,
     );
   }
-
+    //segédfügvény Nagybetű
   static String _capitalize(String name) {
     if (name.isEmpty) return name;
     return name[0].toUpperCase() + name.substring(1);
