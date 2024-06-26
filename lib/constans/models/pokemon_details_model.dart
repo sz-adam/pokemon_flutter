@@ -50,7 +50,7 @@ class PokemonDetails {
 
         //description
     String description = speciesJson['flavor_text_entries'].firstWhere(
-        (entry) => entry['language']['name'] == 'en')['flavor_text'];
+        (entry) => entry['language']['name'] == 'en')['flavor_text'].replaceAll("\n", '').replaceAll('\f', '');
 
     return PokemonDetails(
       name: _capitalize(pokemonJson['name']),
