@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
+import 'package:flutter_pokemon/constants/provider/pokemon_provider.dart';
 import 'package:flutter_pokemon/constants/services/poke_service.dart';
 import 'package:flutter_pokemon/widget/card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final List<Pokemon> _pokemons = [];
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+ 
   bool _isLoading = false;
   int _offset = 0;
   final int _limit = 20;
@@ -34,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     try {
-      final newPokemons =
-          await PokeApiService().fetchPokemons(limit: _limit, offset: _offset);
+      await ref
+          .read(pokemonListProvider.notifier)
+          .fetchPokemons(limit: _limit, offset: _offset);
       setState(() {
-        _pokemons.addAll(newPokemons); // Hozzáadja az új Pokémonokat a listához
         _offset += _limit; // Növeli az offsetet a következő betöltéshez
         _isLoading = false;
       });
@@ -65,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final pokemons = ref.watch(pokemonListProvider);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       appBar: AppBar(
@@ -79,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: _pokemons.isEmpty && _isLoading
+      body: pokemons.isEmpty && _isLoading
           ? const Center(child: CircularProgressIndicator())
           : GridView.builder(
               controller: _scrollController,
@@ -89,17 +92,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSpacing: 8, // Függőleges térköz a kártyák között
                 childAspectRatio: 0.7, // Kártyák méretaránya (négyzet alakú)
               ),
-              itemCount: _pokemons.length +
+              itemCount: pokemons.length +
                   (_isLoading
                       ? 1
                       : 0), // Hozzáad egy betöltési indikátort, ha éppen töltés történik
               itemBuilder: (context, index) {
-                if (index == _pokemons.length) {
+                if (index == pokemons.length) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   ); // Betöltési indikátor a lista végén
                 }
-                final pokemon = _pokemons[index];
+                final pokemon = pokemons[index];
                 return PokemonCard(
                     pokemon: pokemon); // Pokemon kártya megjelenítése
               },
