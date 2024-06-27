@@ -14,20 +14,34 @@ class FavoritesScreen extends ConsumerWidget {
       backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text('Favorites'),
+        title: Center(
+          child: Text(
+            'Favorites',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+          ),
+        ),
       ),
       body: favoritePokemons.isEmpty
           ? Center(
-              child: Text('No favorites yet.'),
+              child: Text(
+                'No favorites yet.',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                ),
+              ),
             )
           : GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-               crossAxisCount: 2, // Két kártya egymás mellé
+                crossAxisCount: 2, // Két kártya egymás mellé
                 crossAxisSpacing: 8, // Vízszintes térköz a kártyák között
                 mainAxisSpacing: 8, // Függőleges térköz a kártyák között
                 childAspectRatio: 0.7, // Kártyák méretaránya (négyzet alakú)
-              ),
-              padding: const EdgeInsets.all(10),
+              ),             
               itemCount: favoritePokemons.length,
               itemBuilder: (context, index) {
                 final pokemon = favoritePokemons[index];
