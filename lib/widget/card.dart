@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokemon/constans/models/pokemon_color.dart';
-import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:flutter_pokemon/screen/details_screen.dart';
 import 'package:flutter_pokemon/widget/favorite_button.dart';
 

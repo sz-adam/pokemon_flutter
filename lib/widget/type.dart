@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokemon/constans/models/pokemon_color.dart';
-import 'package:flutter_pokemon/constans/models/pokemon_details_model.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_details_model.dart';
 
 class Type extends StatelessWidget {
   const Type({Key? key, required this.pokemonDetail}) : super(key: key);

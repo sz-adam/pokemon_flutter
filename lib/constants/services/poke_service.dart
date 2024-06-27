@@ -1,6 +1,6 @@
 import 'dart:convert'; // A JSON dekódolásához szükséges
-import 'package:flutter_pokemon/constans/models/pokemon_details_model.dart';
-import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_details_model.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:http/http.dart' as http;
 
 class PokeApiService {

@@ -1,4 +1,4 @@
-import 'package:flutter_pokemon/constans/models/pokemon_model.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FavoritePokemonNotifier extends StateNotifier<List<Pokemon>> {
