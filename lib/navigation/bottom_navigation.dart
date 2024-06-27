@@ -19,8 +19,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       _selectedPageIndex = index;
     });
   }
-  
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
