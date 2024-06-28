@@ -56,4 +56,26 @@ class PokeApiService {
       throw Exception('Failed to load Pokémon by ID');
     }
   }
+
+//search
+ Future<List<Pokemon>> searchPokemons(String query) async {
+    final url = '$baseUrl?limit=1000'; 
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final List<dynamic> results = data['results'];
+      List<Pokemon> pokemons = [];
+         //TODO:Ha a lekért pokemon neve megyezik a query-be szereplő névvel 
+      for (var result in results) {     
+        if (result['name'].startsWith(query.toLowerCase())) {
+          final pokemonDetail = await fetchPokemonDetail(result['url']);
+          pokemons.add(pokemonDetail);
+        }
+      }
+      
+      return pokemons;
+    } else {
+      throw Exception('Failed to search pokemons');
+    }
+  }
 }

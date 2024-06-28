@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/screen/favorites_screen.dart';
 import 'package:flutter_pokemon/screen/home_screen.dart';
+import 'package:flutter_pokemon/screen/search_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -12,7 +13,7 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedPageIndex = 0;
 
-  final List<Widget> _pages = [HomeScreen(), FavoritesScreen()];
+  final List<Widget> _pages = [HomeScreen(),SearchScreen(), FavoritesScreen()];
 
   void _selectPage(int index) {
     setState(() {
@@ -40,12 +41,23 @@ class _BottomNavigationState extends State<BottomNavigation> {
             backgroundColor:
                 Theme.of(context).colorScheme.onPrimaryFixedVariant,
           ),
+            BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search,
+              color: _selectedPageIndex == 1
+                  ? Colors.lightBlueAccent
+                  : Colors.grey,
+            ),
+            label: _selectedPageIndex == 1 ? 'Search' : '',
+            backgroundColor:
+                Theme.of(context).colorScheme.onPrimaryFixedVariant,
+          ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.favorite,
-              color: _selectedPageIndex == 1 ? Colors.red : Colors.grey,
+              color: _selectedPageIndex == 2 ? Colors.red : Colors.grey,
             ),
-            label: _selectedPageIndex == 1 ? 'Favorites' : '',
+            label: _selectedPageIndex == 2 ? 'Favorites' : '',
             backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         ],
