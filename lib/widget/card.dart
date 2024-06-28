@@ -9,7 +9,7 @@ class PokemonCard extends StatelessWidget {
 
   final Pokemon pokemon;
 
-  bool isStarred = false;
+
 
   @override
   Widget build(BuildContext context) {

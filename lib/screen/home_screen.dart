@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:flutter_pokemon/constants/provider/pokemon_provider.dart';
-import 'package:flutter_pokemon/constants/services/poke_service.dart';
 import 'package:flutter_pokemon/widget/card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
