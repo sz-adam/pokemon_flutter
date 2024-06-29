@@ -1,16 +1,13 @@
-# flutter_pokemon
+# My First Flutter Application
 
-A new Flutter project.
+This is my first Flutter application. It uses the [PokeAPI](https://pokeapi.co/) to fetch all Pokémon and displays each of them in a card. You can navigate from the cards to a details page where more information about each Pokémon is displayed. Pokémon can be added to favorites. The application also features a dynamic search function.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
+![Home Screen](images/home.jpg)
 
-A few resources to get you started if this is your first Flutter project:
+![Details Screen](images/details.jpg)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Favorites Screen](images/favorit.jpg)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Search Function](images/search.jpg)
