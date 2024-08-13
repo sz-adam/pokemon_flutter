@@ -1,12 +1,13 @@
 import 'dart:convert'; // A JSON dekódolásához szükséges
+import 'package:flutter_pokemon/constants/models/generation.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_details_model.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:http/http.dart' as http;
 
 class PokeApiService {
   final String baseUrl = 'https://pokeapi.co/api/v2/pokemon';
-    final String speciesUrl = 'https://pokeapi.co/api/v2/pokemon-species';
-
+  final String speciesUrl = 'https://pokeapi.co/api/v2/pokemon-species';
+  final String generationUrl = 'https://pokeapi.co/api/v2/';
 
   // pokemonok lekérése
   Future<List<Pokemon>> fetchPokemons({int limit = 20, int offset = 0}) async {
@@ -43,12 +44,12 @@ class PokeApiService {
     }
   }
 
-
   Future<PokemonDetails> fetchPokemonById(int id) async {
     final pokemonResponse = await http.get(Uri.parse('$baseUrl/$id'));
     final speciesResponse = await http.get(Uri.parse('$speciesUrl/$id'));
 
-    if (pokemonResponse.statusCode == 200 && speciesResponse.statusCode == 200) {
+    if (pokemonResponse.statusCode == 200 &&
+        speciesResponse.statusCode == 200) {
       final pokemonData = jsonDecode(pokemonResponse.body);
       final speciesData = jsonDecode(speciesResponse.body);
       return PokemonDetails.fromJson(pokemonData, speciesData);
@@ -58,24 +59,37 @@ class PokeApiService {
   }
 
 //search
- Future<List<Pokemon>> searchPokemons(String query) async {
-    final url = '$baseUrl?limit=1000'; 
+  Future<List<Pokemon>> searchPokemons(String query) async {
+    final url = '$baseUrl?limit=1000';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final List<dynamic> results = data['results'];
       List<Pokemon> pokemons = [];
-         //TODO:Ha a lekért pokemon neve megyezik a query-be szereplő névvel 
-      for (var result in results) {     
+      //TODO:Ha a lekért pokemon neve megyezik a query-be szereplő névvel
+      for (var result in results) {
         if (result['name'].startsWith(query.toLowerCase())) {
           final pokemonDetail = await fetchPokemonDetail(result['url']);
           pokemons.add(pokemonDetail);
         }
       }
-      
+
       return pokemons;
     } else {
       throw Exception('Failed to search pokemons');
+    }
+  }
+
+  Future<List<Generation>> fetchGenerations() async {
+    final response = await http.get(Uri.parse('${generationUrl}generation'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final results = data['results'] as List;
+
+      return results.map((json) => Generation.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load generations');
     }
   }
 }
