@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon/widget/generations.dart';
+
 
 class TabScreen extends StatelessWidget {
   @override
@@ -39,7 +41,7 @@ class TabScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             // Generációk tartalma
-            Center(child: Text('Pokémon Generations Content')),
+            Center(child: Generations()),
             // Típusok tartalma
             Center(child: Text('Pokémon Types Content')),
           ],
