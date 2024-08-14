@@ -25,7 +25,7 @@ final Map<String, Color> PokeGenerationColors = {
  'Generation-I': Colors.red,
   'Generation-II': Colors.blue,
   'Generation-III': Colors.green,
-  'Generation-IV': Colors.yellow,
+  'Generation-IV': Colors.blueGrey,
   'Generation-V': Colors.orange,
   'Generation-VI': Colors.purple,
   'Generation-VII': Colors.pink,
