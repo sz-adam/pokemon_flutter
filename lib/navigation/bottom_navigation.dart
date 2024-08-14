@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/screen/favorites_screen.dart';
-import 'package:flutter_pokemon/screen/genration_screen.dart';
+import 'package:flutter_pokemon/screen/overview_screen.dart';
 import 'package:flutter_pokemon/screen/home_screen.dart';
 import 'package:flutter_pokemon/screen/search_screen.dart';
 
@@ -16,7 +16,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> _pages = [
     const HomeScreen(),
-    GenerationsScreen(),
+    OverviewScreen(),
     const SearchScreen(),
     const FavoritesScreen(),
   ];
@@ -27,7 +27,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       'label': 'Pokémon',
       'color': const Color.fromARGB(255, 214, 236, 17)
     },
-    {'icon': Icons.grid_on, 'label': 'Generation', 'color': Colors.green},
+    {'icon': Icons.grid_on, 'label': 'Overview', 'color': Colors.green},
      {'icon': Icons.search, 'label': 'Search', 'color': Colors.lightBlueAccent},
     {'icon': Icons.favorite, 'label': 'Favorites', 'color': Colors.red},
    
