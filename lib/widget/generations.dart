@@ -3,6 +3,7 @@ import 'package:flutter_pokemon/constants/models/generation.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constants/services/poke_service.dart';
 import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
+import 'package:flutter_pokemon/widget/generations_card.dart';
 
 class Generations extends StatefulWidget {
   @override
@@ -58,16 +59,7 @@ class _GenerationsState extends State<Generations> {
                 final formattedName = formatGenerationName(generation.name);
                 Color backgroundColorgeneration =
                     PokeGenerationColors[formattedName] ?? Colors.grey;
-                return Card(
-                  color: backgroundColorgeneration,
-                  child: Center(
-                    child: Text(
-                      formattedName,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                );
+                return GenerationsCard(backgroundColorgeneration: backgroundColorgeneration, formattedName: formattedName);
               },
             );
           }
@@ -76,3 +68,4 @@ class _GenerationsState extends State<Generations> {
     );
   }
 }
+
