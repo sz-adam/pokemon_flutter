@@ -7,15 +7,22 @@ class OverviewScreen extends StatefulWidget {
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {
-
-  
-
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
-      body: TabScreen()
-    );
+        backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: Center(
+            child: Text(
+              "Overview",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primaryContainer,
+              ),
+            ),
+          ),
+        ),
+        body: TabScreen());
   }
 }
