@@ -28,8 +28,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
       'color': const Color.fromARGB(255, 214, 236, 17)
     },
     {'icon': Icons.grid_on, 'label': 'Generation', 'color': Colors.green},
+     {'icon': Icons.search, 'label': 'Search', 'color': Colors.lightBlueAccent},
     {'icon': Icons.favorite, 'label': 'Favorites', 'color': Colors.red},
-    {'icon': Icons.search, 'label': 'Search', 'color': Colors.lightBlueAccent},
+   
   ];
 
   void _selectPage(int index) {
