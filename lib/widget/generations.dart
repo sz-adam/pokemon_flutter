@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/generation.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constants/services/poke_service.dart';
 import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
 
@@ -55,7 +56,10 @@ class _GenerationsState extends State<Generations> {
               itemBuilder: (context, index) {
                 final generation = generations[index];
                 final formattedName = formatGenerationName(generation.name);
+                Color backgroundColorgeneration =
+                    PokeGenerationColors[formattedName] ?? Colors.grey;
                 return Card(
+                  color: backgroundColorgeneration,
                   child: Center(
                     child: Text(
                       formattedName,
