@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pokemon/widget/generation_details.dart';
+import 'package:flutter_pokemon/widget/generation_pokemons.dart';
 
 class GenerationsCard extends StatelessWidget {
   const GenerationsCard({
