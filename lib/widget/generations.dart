@@ -59,7 +59,10 @@ class _GenerationsState extends State<Generations> {
                 final formattedName = formatGenerationName(generation.name);
                 Color backgroundColorgeneration =
                     PokeGenerationColors[formattedName] ?? Colors.grey;
-                return GenerationsCard(backgroundColorgeneration: backgroundColorgeneration, formattedName: formattedName);
+                return GenerationsCard(
+                    generationUrl: generation.url,
+                    backgroundColorgeneration: backgroundColorgeneration,
+                    formattedName: formattedName);
               },
             );
           }
@@ -68,4 +71,3 @@ class _GenerationsState extends State<Generations> {
     );
   }
 }
-
