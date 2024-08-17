@@ -176,6 +176,23 @@ class PokeApiService {
     }
   }
 
+  Future<String> fetchTypeName(String typeUrl) async {
+    try {
+      final response = await http.get(Uri.parse(typeUrl));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        // Kinyerjük a "name" mezőt
+        final typeName = data['name'];
+        return typeName;
+      } else {
+        throw Exception('Failed to load type name');
+      }
+    } catch (error) {
+      print('Error in fetchTypeName: $error');
+      rethrow;
+    }
+  }
+
   ///Tipus alpaján lekérjük a pokemonokat
   Future<List<Pokemon>> fetchPokemonType(
       String typeUrl, int offset, int limit) async {

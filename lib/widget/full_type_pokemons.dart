@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
 import 'package:flutter_pokemon/controller/scroll_controller.dart';
 import 'package:flutter_pokemon/widget/card.dart';
 
 class FullTypePokemons extends StatefulWidget {
-  const FullTypePokemons({Key? key, required this.typeUrl}) : super(key: key);
+  const FullTypePokemons({ Key? key, required this.typeUrl }) : super(key: key);
 
   final String typeUrl;
 
@@ -17,6 +18,7 @@ class _FullTypePokemonsState extends State<FullTypePokemons> {
   List<Pokemon> typePokemons = [];
   late PokeApiService pokemonService;
   late PaginationController paginationController;
+  String typeName = '';
 
   @override
   void initState() {
@@ -24,7 +26,19 @@ class _FullTypePokemonsState extends State<FullTypePokemons> {
     pokemonService = PokeApiService();
     paginationController = PaginationController(limit: 20);
     paginationController.addScrollListener(_loadMorePokemons);
-    fetchPokemonType();
+    fetchTypeName(); // Lekérjük a típus nevét
+    fetchPokemonType(); // Lekérjük a Pokémonokat
+  }
+
+  Future<void> fetchTypeName() async {
+    try {
+      final name = await pokemonService.fetchTypeName(widget.typeUrl);
+      setState(() {
+        typeName = name; // Frissítjük az állapotot a névvel
+      });
+    } catch (error) {
+      print('Error fetching type name: $error');
+    }
   }
 
   Future<void> fetchPokemonType() async {
@@ -63,18 +77,22 @@ class _FullTypePokemonsState extends State<FullTypePokemons> {
     paginationController.dispose(); // Tisztítja a görgetési vezérlőt
     super.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
+    // A capitalize függvény
+    String capitalizedName = capitalize(typeName);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Center(
-            child: Text(
-          'Pokemon types',
-          style: TextStyle(color: Colors.white),
-        )),
+        title: Center(
+          child: Text(
+            'Pokemon Type: $capitalizedName', 
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
       ),
       body: typePokemons.isEmpty && paginationController.isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -86,8 +104,8 @@ class _FullTypePokemonsState extends State<FullTypePokemons> {
                 mainAxisSpacing: 8,
                 childAspectRatio: 0.7,
               ),
-              itemCount: typePokemons.length +
-                  (paginationController.isLoading ? 1 : 0),
+              itemCount:
+                  typePokemons.length + (paginationController.isLoading ? 1 : 0),
               itemBuilder: (context, index) {
                 if (index == typePokemons.length) {
                   return const Center(child: CircularProgressIndicator());
@@ -99,4 +117,6 @@ class _FullTypePokemonsState extends State<FullTypePokemons> {
             ),
     );
   }
+
+ 
 }
