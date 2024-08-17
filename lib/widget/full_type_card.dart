@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/full_type_model.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
 import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
-import 'package:flutter_pokemon/screen/home_screen.dart';
+import 'package:flutter_pokemon/widget/full_type_pokemons.dart';
 
 class FullTypeCard extends StatelessWidget {
   const FullTypeCard({Key? key, required this.fullTypes}) : super(key: key);
@@ -16,6 +16,7 @@ class FullTypeCard extends StatelessWidget {
     String name = fullTypes.name;
       String capitalizedName = capitalize(name); 
     Color backgroundColor = PokeColors[name] ?? Colors.grey;
+ 
   
 
     return GestureDetector(
@@ -23,7 +24,9 @@ class FullTypeCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => FullTypePokemons(
+              typeUrl:fullTypes.url
+            ),
           ),
         );
       },
