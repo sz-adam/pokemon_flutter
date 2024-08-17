@@ -94,7 +94,8 @@ class PokeApiService {
   }
 
   // adott generációs Pokemonok lekérése
-  Future<List<Pokemon>> fetchPokemonGeneration(String generationUrl) async {
+  Future<List<Pokemon>> fetchPokemonGeneration(
+      String generationUrl, int offset, int limit) async {
     try {
       final response = await http.get(Uri.parse(generationUrl));
       if (response.statusCode == 200) {
@@ -102,8 +103,10 @@ class PokeApiService {
         final data = jsonDecode(response.body);
         // Kinyerjük az ID-kat az 'pokemon_species' listából
         final List<String> ids = _extractIds(data['pokemon_species']);
+        // Szűrés az offset és limit alapján
+        final paginatedIds = ids.skip(offset).take(limit).toList();
         // Lekérjük a Pokémonokat az ID-k alapján
-        final pokemons = await _fetchPokemonsByIds(ids);
+        final pokemons = await _fetchPokemonsByIds(paginatedIds);
 
         // Visszaadjuk a lekért Pokémonokat
         return pokemons;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
 import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/controller/scroll_controller.dart';
 import 'package:flutter_pokemon/widget/card.dart';
 
 class GenerationDetailsScreen extends StatefulWidget {
@@ -18,25 +19,52 @@ class GenerationDetailsScreen extends StatefulWidget {
 
 class _GenerationDetailsScreenState extends State<GenerationDetailsScreen> {
   List<Pokemon> pokemons = [];
-
   late PokeApiService pokemonService;
+  late PaginationController paginationController;
 
   @override
   void initState() {
     super.initState();
     pokemonService = PokeApiService();
+    paginationController = PaginationController(limit: 20);
+    paginationController.addScrollListener(_loadMorePokemons);
     fetchPokemonGeneration();
   }
 
+  @override
+  void dispose() {
+    paginationController.dispose(); // Tisztítja a görgetési vezérlőt
+    super.dispose();
+  }
+
   Future<void> fetchPokemonGeneration() async {
+    if (paginationController.isLoading) return;
+    setState(() {
+      paginationController.isLoading = true;
+    });
+
     try {
-      final fetchedPokemons =
-          await pokemonService.fetchPokemonGeneration(widget.generationUrl);
+      final fetchedPokemons = await pokemonService.fetchPokemonGeneration(
+        widget.generationUrl,
+        paginationController.offset,
+        paginationController.limit,
+      );
       setState(() {
-        pokemons = fetchedPokemons;
+        pokemons.addAll(fetchedPokemons);
+        paginationController.offset += paginationController.limit;
+        paginationController.isLoading = false;
       });
     } catch (error) {
       print('Error fetching Pokémon data: $error');
+      setState(() {
+        paginationController.isLoading = false;
+      });
+    }
+  }
+
+  void _loadMorePokemons() {
+    if (!paginationController.isLoading) {
+      fetchPokemonGeneration();
     }
   }
 
@@ -52,19 +80,27 @@ class _GenerationDetailsScreenState extends State<GenerationDetailsScreen> {
           style: TextStyle(color: Colors.white),
         )),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Az oszlopok száma a rácsban
-          crossAxisSpacing: 8, // Az oszlopok közötti távolság
-          mainAxisSpacing: 8, // A sorok közötti távolság
-          childAspectRatio: 0.7,
-        ),
-        itemCount: pokemons.length,
-        itemBuilder: (context, index) {
-          final pokemon = pokemons[index];
-          return PokemonCard(pokemon: pokemon);
-        },
-      ),
+      body: pokemons.isEmpty && paginationController.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : GridView.builder(
+              controller: paginationController.scrollController,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+                childAspectRatio: 0.7,
+              ),
+              itemCount:
+                  pokemons.length + (paginationController.isLoading ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == pokemons.length) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  final pokemon = pokemons[index];
+                  return PokemonCard(pokemon: pokemon);
+                }
+              },
+            ),
     );
   }
 }
