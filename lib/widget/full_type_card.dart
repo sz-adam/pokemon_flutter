@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/full_type_model.dart';
+import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
+import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
 import 'package:flutter_pokemon/screen/home_screen.dart';
 
 class FullTypeCard extends StatelessWidget {
@@ -7,8 +9,15 @@ class FullTypeCard extends StatelessWidget {
 
   final FullTypeModel fullTypes;
 
+  
+
   @override
   Widget build(BuildContext context) {
+    String name = fullTypes.name;
+      String capitalizedName = capitalize(name); 
+    Color backgroundColor = PokeColors[name] ?? Colors.grey;
+  
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -19,7 +28,7 @@ class FullTypeCard extends StatelessWidget {
         );
       },
       child: Card(
-        // color: backgroundColorgeneration,
+        color: backgroundColor,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -33,7 +42,7 @@ class FullTypeCard extends StatelessWidget {
             Positioned(
               top: 50,
               child: Text(
-                fullTypes.name,
+                capitalizedName,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
