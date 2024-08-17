@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/full_type_model.dart';
 import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/widget/full_type_card.dart';
 
 class TypeCard extends StatefulWidget {
   const TypeCard({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _TypeCardState extends State<TypeCard> {
               itemBuilder: (context, index) {
                 final fullTypes = fullType[index];
                
-                return Text(fullTypes.name);
+                return FullTypeCard(fullTypes:fullTypes);
               },
             );
           }
