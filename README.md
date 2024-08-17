@@ -12,4 +12,4 @@ This is my first Flutter application. It uses the [PokeAPI](https://pokeapi.co/)
 
 ![Search Function](images/search.jpg)
 
-![Overview](images/overview.jpg)
+![Overview](images/Overview.jpg)
