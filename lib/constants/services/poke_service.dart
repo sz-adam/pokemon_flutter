@@ -1,4 +1,5 @@
 import 'dart:convert'; // A JSON dekódolásához szükséges
+import 'package:flutter_pokemon/constants/models/full_type_model.dart';
 import 'package:flutter_pokemon/constants/models/generation.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_details_model.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
@@ -8,6 +9,7 @@ class PokeApiService {
   final String baseUrl = 'https://pokeapi.co/api/v2/pokemon';
   final String speciesUrl = 'https://pokeapi.co/api/v2/pokemon-species';
   final String generationUrl = 'https://pokeapi.co/api/v2/';
+  final String fullTypeUrl='https://pokeapi.co/api/v2/type/';
 
   // pokemonok lekérése
   Future<List<Pokemon>> fetchPokemons({int limit = 20, int offset = 0}) async {
@@ -159,5 +161,19 @@ class PokeApiService {
       }
     }
     return pokemons;
+  }
+
+
+  //összes tipus lekérése 
+   Future<List<FullTypeModel>> fetchFullTypes() async {
+    final response = await http.get(Uri.parse('${fullTypeUrl}'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final results = data['results'] as List;
+      return results.map((json) => FullTypeModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load types');
+    }
   }
 }

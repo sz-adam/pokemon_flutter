@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/widget/generations.dart';
+import 'package:flutter_pokemon/widget/full_type.dart';
 
 
 class TabScreen extends StatelessWidget {
@@ -43,7 +44,7 @@ class TabScreen extends StatelessWidget {
             // Generációk tartalma
             Center(child: Generations()),
             // Típusok tartalma
-            Center(child: Text('Pokémon Types Content')),
+            Center(child: TypeCard()),
           ],
         ),
       ),
