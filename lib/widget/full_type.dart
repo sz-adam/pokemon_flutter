@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/full_type_model.dart';
-import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/constants/services/poke_type.dart';
 import 'package:flutter_pokemon/widget/full_type_card.dart';
 
 class TypeCard extends StatefulWidget {
@@ -16,7 +16,7 @@ class _TypeCardState extends State<TypeCard> {
   @override
   void initState() {
     super.initState();
-    _fullType = PokeApiService().fetchFullTypes();
+    _fullType = PokeTypeService().fetchFullTypes();
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/generation.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_color.dart';
-import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/constants/services/poke_generation.dart';
 import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
 import 'package:flutter_pokemon/widget/generations_card.dart';
 
@@ -16,7 +16,7 @@ class _GenerationsState extends State<Generations> {
   @override
   void initState() {
     super.initState();
-    _generations = PokeApiService().fetchGenerations();
+    _generations = PokeGenerationService().fetchGenerations();
   }
 
   @override

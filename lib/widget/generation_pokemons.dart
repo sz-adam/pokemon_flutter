@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
-import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/constants/services/poke_generation.dart';
 import 'package:flutter_pokemon/controller/scroll_controller.dart';
 import 'package:flutter_pokemon/widget/card.dart';
 
@@ -19,13 +19,13 @@ class GenerationDetailsScreen extends StatefulWidget {
 
 class _GenerationDetailsScreenState extends State<GenerationDetailsScreen> {
   List<Pokemon> pokemons = [];
-  late PokeApiService pokemonService;
+  late PokeGenerationService pokemonService;
   late PaginationController paginationController;
 
   @override
   void initState() {
     super.initState();
-    pokemonService = PokeApiService();
+    pokemonService = PokeGenerationService();
     paginationController = PaginationController(limit: 20);
     paginationController.addScrollListener(_loadMorePokemons);
     fetchPokemonGeneration();

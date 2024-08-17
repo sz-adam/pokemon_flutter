@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon/constants/models/pokemon_model.dart';
-import 'package:flutter_pokemon/constants/services/poke_service.dart';
+import 'package:flutter_pokemon/constants/services/poke_type.dart';
 import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
 import 'package:flutter_pokemon/controller/scroll_controller.dart';
 import 'package:flutter_pokemon/widget/card.dart';
@@ -16,14 +16,14 @@ class FullTypePokemons extends StatefulWidget {
 
 class _FullTypePokemonsState extends State<FullTypePokemons> {
   List<Pokemon> typePokemons = [];
-  late PokeApiService pokemonService;
+  late PokeTypeService pokemonService;
   late PaginationController paginationController;
   String typeName = '';
 
   @override
   void initState() {
     super.initState();
-    pokemonService = PokeApiService();
+    pokemonService = PokeTypeService();
     paginationController = PaginationController(limit: 20);
     paginationController.addScrollListener(_loadMorePokemons);
     fetchTypeName(); // Lekérjük a típus nevét
