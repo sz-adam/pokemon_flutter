@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon/controller/scroll_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_pokemon/constants/provider/pokemon_provider.dart';
 import 'package:flutter_pokemon/widget/card.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,55 +12,46 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
- 
-  bool _isLoading = false;
-  int _offset = 0;
-  final int _limit = 20;
-  final ScrollController _scrollController =
-      ScrollController(); // Görgetés vezérlő a lista nézethez
+  final PaginationController _paginationController =
+      PaginationController(limit: 20);
 
   @override
   void initState() {
     super.initState();
+    _paginationController.addScrollListener(_fetchPokemons);
     _fetchPokemons(); // Betölti az első 20 Pokémon-t
-    _scrollController
-        .addListener(_scrollListener); // Hozzáad egy görgetési figyelőt
   }
 
-  // Metódus a Pokémon-ok betöltésére
+// Metódus a Pokémon-ok betöltésére
   Future<void> _fetchPokemons() async {
-    if (_isLoading) return; // Ha már történik betöltés, akkor kilép
+    if (_paginationController.isLoading)
+      return; // Ha már történik betöltés, akkor kilép
+
     setState(() {
-      _isLoading = true;
+      _paginationController.isLoading = true;
     });
 
     try {
-      await ref
-          .read(pokemonListProvider.notifier)
-          .fetchPokemons(limit: _limit, offset: _offset);
+      await ref.read(pokemonListProvider.notifier).fetchPokemons(
+          limit: _paginationController.limit,
+          offset: _paginationController.offset);
       setState(() {
-        _offset += _limit; // Növeli az offsetet a következő betöltéshez
-        _isLoading = false;
+        _paginationController.offset += _paginationController
+            .limit; // Növeli az offsetet a következő betöltéshez
+        _paginationController.isLoading = false;
       });
     } catch (e) {
       setState(() {
-        _isLoading = false;
+        _paginationController.isLoading = false;
       });
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 
-  // Görgetési figyelő
-  void _scrollListener() {
-    if (_scrollController.position.extentAfter < 500 && !_isLoading) {
-      _fetchPokemons(); // Új Pokémonok betöltése
-    }
-  }
-
   @override
   void dispose() {
-    _scrollController.dispose(); // Tisztítja a görgetési vezérlőt
+    _paginationController.dispose(); // Tisztítja a görgetési vezérlőt
     super.dispose();
   }
 
@@ -80,18 +72,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-      body: pokemons.isEmpty && _isLoading
+      body: pokemons.isEmpty && _paginationController.isLoading
           ? const Center(child: CircularProgressIndicator())
           : GridView.builder(
-              controller: _scrollController,
+              controller: _paginationController.scrollController,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Két kártya egymás mellé
-                crossAxisSpacing: 8, // Vízszintes térköz a kártyák között
-                mainAxisSpacing: 8, // Függőleges térköz a kártyák között
-                childAspectRatio: 0.7, // Kártyák méretaránya (négyzet alakú)
+                crossAxisCount: 2, // Az oszlopok száma a rácsban
+                crossAxisSpacing: 8, // Az oszlopok közötti távolság
+                mainAxisSpacing: 8, // A sorok közötti távolság
+                childAspectRatio: 0.7,
               ),
               itemCount: pokemons.length +
-                  (_isLoading
+                  (_paginationController.isLoading
                       ? 1
                       : 0), // Hozzáad egy betöltési indikátort, ha éppen töltés történik
               itemBuilder: (context, index) {
