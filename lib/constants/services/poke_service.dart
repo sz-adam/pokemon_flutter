@@ -176,4 +176,32 @@ class PokeApiService {
       throw Exception('Failed to load types');
     }
   }
+  
+   // Lekérdezi a Pokémon típusokat
+  Future<List<Pokemon>> fetchTypePokemons(String typeUrl) async {
+    final response = await http.get(Uri.parse(typeUrl));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List<dynamic> pokemonsData = data['pokemon'];
+
+      List<Pokemon> pokemons = [];
+      for (int i = 0; i < pokemonsData.length && i < 10; i++) {
+        final pokemonData = pokemonsData[i];
+        final pokemonUrl = pokemonData['pokemon']['url'];
+        final pokemonResponse = await http.get(Uri.parse(pokemonUrl));
+
+        if (pokemonResponse.statusCode == 200) {
+          final pokemonJson = json.decode(pokemonResponse.body);
+          pokemons.add(Pokemon.fromJson(pokemonJson));
+        } else {
+          throw Exception('Failed to load pokemon');
+        }
+      }
+      return pokemons;
+    } else {
+      throw Exception('Failed to load pokemon list');
+    }
+  }
+
 }
