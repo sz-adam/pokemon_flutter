@@ -16,3 +16,8 @@ String formatGenerationName(String name) {
   // Csatlakoztatjuk a részeket
   return [formattedFirstPart, ...formattedRestParts].join('-');
 }
+ // Nagybetűsítés függvény
+String capitalize(String name) {
+    if (name.isEmpty) return name;
+    return name[0].toUpperCase() + name.substring(1);
+  }

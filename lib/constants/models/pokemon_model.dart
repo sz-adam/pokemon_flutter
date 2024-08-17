@@ -1,3 +1,5 @@
+import 'package:flutter_pokemon/constants/utils/caracter_format.dart';
+
 class Pokemon {
   final String name;
   final String imageUrl;
@@ -22,15 +24,11 @@ class Pokemon {
         typesList.map((type) => type['type']['name'] as String).toList();
 
     return Pokemon(
-      name: _capitalize(json['name']),
+      name: capitalize(json['name']),
       imageUrl: json['sprites']['other']['home']['front_default'],
       id: json['id'],
       types: types,
     );
   }
-  //name nagybetűsé tétele
-  static String _capitalize(String name) {
-    if (name.isEmpty) return name;
-    return name[0].toUpperCase() + name.substring(1);
-  }
+
 }
