@@ -9,7 +9,7 @@ class PokeApiService {
   final String baseUrl = 'https://pokeapi.co/api/v2/pokemon';
   final String speciesUrl = 'https://pokeapi.co/api/v2/pokemon-species';
   final String generationUrl = 'https://pokeapi.co/api/v2/';
-  final String fullTypeUrl='https://pokeapi.co/api/v2/type/';
+  final String fullTypeUrl = 'https://pokeapi.co/api/v2/type/';
 
   // pokemonok lekérése
   Future<List<Pokemon>> fetchPokemons({int limit = 20, int offset = 0}) async {
@@ -163,10 +163,9 @@ class PokeApiService {
     return pokemons;
   }
 
-
-  //összes tipus lekérése 
-   Future<List<FullTypeModel>> fetchFullTypes() async {
-    final response = await http.get(Uri.parse('${fullTypeUrl}'));
+  //összes tipus lekérése
+  Future<List<FullTypeModel>> fetchFullTypes() async {
+    final response = await http.get(Uri.parse(fullTypeUrl));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -176,32 +175,72 @@ class PokeApiService {
       throw Exception('Failed to load types');
     }
   }
-  
-   // Lekérdezi a Pokémon típusokat
-  Future<List<Pokemon>> fetchTypePokemons(String typeUrl) async {
-    final response = await http.get(Uri.parse(typeUrl));
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List<dynamic> pokemonsData = data['pokemon'];
+  ///Tipus alpaján lekérjük a pokemonokat
+  Future<List<Pokemon>> fetchPokemonType(
+      String typeUrl, int offset, int limit) async {
+    try {
+      final response = await http.get(Uri.parse(typeUrl));
+      if (response.statusCode == 200) {
+        // A választ dekódoljuk
+        final data = jsonDecode(response.body);
+        // Kinyerjük az ID-kat az 'pokemon' listából
+        final List<String> ids = _extractTypeIds(data['pokemon']);
+        // Szűrés az offset és limit alapján
+        final paginatedIds = ids.skip(offset).take(limit).toList();
+        // Lekérjük a Pokémonokat az ID-k alapján
+        final pokemons = await _fetchPokemonsByTypeIds(paginatedIds);
 
-      List<Pokemon> pokemons = [];
-      for (int i = 0; i < pokemonsData.length && i < 10; i++) {
-        final pokemonData = pokemonsData[i];
-        final pokemonUrl = pokemonData['pokemon']['url'];
-        final pokemonResponse = await http.get(Uri.parse(pokemonUrl));
-
-        if (pokemonResponse.statusCode == 200) {
-          final pokemonJson = json.decode(pokemonResponse.body);
-          pokemons.add(Pokemon.fromJson(pokemonJson));
-        } else {
-          throw Exception('Failed to load pokemon');
-        }
+        // Visszaadjuk a lekért Pokémonokat
+        return pokemons;
+      } else {
+        throw Exception('Failed to load generation data');
       }
-      return pokemons;
-    } else {
-      throw Exception('Failed to load pokemon list');
+    } catch (error) {
+      print('Error in fetchPokemonGeneration: $error');
+      rethrow;
     }
   }
 
+// Segédfüggvény, amely kinyeri a Pokémon ID-kat a pokemon url-ből utolsó karakterek
+  List<String> _extractTypeIds(List<dynamic> pokemonSpecies) {
+    // Adjuk vissza a listát amelyben a Pokémon Url szerepelnek
+    return pokemonSpecies.map((species) {
+      // Kinyerjük az URL-t, majd az ID-t az URL-ből
+      final url = species['pokemon']['url'];
+      return _extractIdFromTypeUrl(url);
+    }).toList();
+  }
+
+// Segédfüggvény, amely kinyeri az ID-t az URL-ből
+  String _extractIdFromTypeUrl(String url) {
+    // Az URL-t '/' karakterek mentén felbontjuk
+    final parts = url.split('/');
+    // Az ID az utolsó előtti elem az URL-ban
+    return parts[parts.length - 2];
+  }
+
+// Segédfüggvény, amely lekéri az egyes Pokémonokat az ID-k alapján
+  Future<List<Pokemon>> _fetchPokemonsByTypeIds(List<String> ids) async {
+    List<Pokemon> pokemons = [];
+    for (String id in ids) {
+      try {
+        final url = '$baseUrl/$id/';
+        final response = await http.get(Uri.parse(url));
+
+        if (response.statusCode == 200) {
+          // A választ dekódoljuk
+          final data = jsonDecode(response.body);
+          // Létrehozzuk a Pokémon objektumot
+          final pokemon = Pokemon.fromJson(data);
+          pokemons.add(pokemon);
+        } else {
+          print('Failed to load Pokémon data for ID: $id');
+        }
+      } catch (error) {
+        print('Error fetching Pokémon ID $id: $error');
+      }
+    }
+    return pokemons;
+  }
 }
